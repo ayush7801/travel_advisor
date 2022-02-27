@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/main.e440ec11.css","mappings":"AAAA,UACI,gBAAiB,CACjB,eACJ","sources":["App.css"],"sourcesContent":["html, body{\r\n    max-height: 100vh;\r\n    overflow-y: clip;\r\n}"],"names":[],"sourceRoot":""}
