@@ -1,23 +1,34 @@
-import React, { useState } from 'react';
-import { CircularProgress, Grid, Typography, InputLabel, MenuItem, FormControl, Select } from '@material-ui/core';
+import React, { useState, useEffect, createRef } from 'react';
+import { CssBaseline, CircularProgress, Grid, Typography, InputLabel, MenuItem, FormControl, Select } from '@material-ui/core';
 import PlaceDetails from '../PlaceDetails/PlaceDetails';
 
 import useStyles from './Styles';
 
-const List = ({ places }) => {
+const List = ({ places, childClicked, isLoading, type, setType, rating, setRating }) => {
     const classes = useStyles();
-    const [type, setType] = useState('restaurants');
-    const [rating, setRating] = useState('');
-
+    console.log({places});
+    const [elrefs,setElRefs] = useState([]);
+    console.log({elrefs});
+    useEffect(() => {
+        setElRefs((refs) => Array(places?.length).fill().map((_,i) => refs[i] || createRef()));
+    }, [places]);
     return (
+        <>
+        <CssBaseline />
         <div className={classes.container}>
             <Typography variant='h4'>Restaurants, Hotels & Attractions around you</Typography>
+            {isLoading ? (
+                <div className={classes.loading}>
+                    <CircularProgress size="5rem" />
+                </div>
+            ) :(
+            <>
             <FormControl className={classes.formControl}>
                 <InputLabel>Type</InputLabel>
                 <Select value={type} onChange={(e) => setType(e.target.value)}>
                     <MenuItem value="restaurants">Restaurants</MenuItem>
                     <MenuItem value="hotels">Hotels</MenuItem>
-                    <MenuItem value="attraction">Attractions</MenuItem>
+                    <MenuItem value="attractions">Attractions</MenuItem>
                 </Select>
             </FormControl>
             <FormControl className={classes.formControl}>
@@ -30,13 +41,20 @@ const List = ({ places }) => {
                 </Select>
             </FormControl>
             <Grid container spacing={3} className={classes.list}>
-                {places?.map((place, index) => (
-                    <Grid item key={index} xs={12}>
-                        <PlaceDetails place={place}/>
+                {places?.map((place, i) => (
+                    <Grid item ref={elrefs[i]}  key={i} xs={12}>
+                        <PlaceDetails 
+                            place={place}
+                            selected={Number(childClicked)===i}
+                            refProp = {elrefs[i]}
+                        />
                     </Grid>
                 ))}
             </Grid>
+            </>
+            )}
         </div>
+        </>
     );
 }
 

@@ -1,28 +1,30 @@
 import React from 'react';
 import GoogleMapReact from 'google-map-react';
-import { Paper, Typography, useMediaQuery} from '@material-ui/core';
+import { CssBaseline, Paper, Typography, useMediaQuery} from '@material-ui/core';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
 import Rating from '@material-ui/lab/Rating';
 import useStyles from './Styles';
 
-const Map = ({setCoords, setBounds, coords, places}) => {
+const Map = ({setCoords, setBounds, coords, places, setChildClicked}) => {
     const classes = useStyles();
     const isDesktop = useMediaQuery('(min-width:600px)');
 
     return (
+        <>
+        <CssBaseline />
         <div className={classes.mapContainer}>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: 'AIzaSyDO2dLa5rgmN8OnYEpfE_8lH0hqrs39IB0'}}
+                bootstrapURLKeys={{ key: 'AIzaSyD_P58-g0n3KNITw-d01Y_j23NXVW0TTRU'}}
                 defaultCenter={coords}
                 center={coords}
                 defaultZoom={14}
-                margin={[50,50,50,50]}
+                margin={[50,50,0,50]}
                 options={''}
                 onChange={(e) => {
                     setCoords({ lat: e.center.lat, lng: e.center.lng});
                     setBounds({ ne: e.marginBounds.ne, sw: e.marginBounds.sw });
                 }}           //really important when you chnage the map
-                onChildClick={(child) => {}}       //when you click on any restraunt
+                onChildClick={(child) => setChildClicked(child)}       //when you click on any restraunt
             >
                 {places?.map((place, i) => (
                     <div
@@ -52,6 +54,7 @@ const Map = ({setCoords, setBounds, coords, places}) => {
                 ))}
             </GoogleMapReact>
         </div>
+        </>
     );
 }
 
