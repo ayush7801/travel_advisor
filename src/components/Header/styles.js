@@ -29,4 +29,7 @@ export default makeStyles((theme) => ({
   toolbar: {
     display: 'flex', justifyContent: 'space-between',
   },
+  logo: {
+    display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+  },
 }));
